@@ -1,14 +1,8 @@
-# Candidate Interview Project
+# Pokemon API NestJS
 
-## Project Overview
+## Swagger
 
-Welcome to the interview project! This project is designed to assess your skills in building a backend API using Node.
-
-### Goals
-
-- Understand your proficiency with Node.
-- Assess your ability to design and implement a scalable API.
-- Evaluate your coding practices and problem-solving approach.
+- Access: localhost:4000/docs
 
 ## Installation
 
