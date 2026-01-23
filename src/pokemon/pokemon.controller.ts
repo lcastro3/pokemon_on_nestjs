@@ -12,7 +12,7 @@ import { PaginationDto } from './dto/pagination.dto';
 export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
-  @Post()
+  @Post(['/','createOnePokemon'])
   @ApiOperation({ summary: 'Add a new Pokemon' })
   @ApiBody({
     type: CreatePokemonDto,
@@ -24,7 +24,7 @@ export class PokemonController {
     return this.pokemonService.create(createPokemonDto);
   }
 
-  @Get()
+  @Get(['/', 'findManyPokemon'])
   @ApiOperation({ summary: 'Get all Pokemons' })
   @ApiParam({name: 'page', required: false, description: 'Page number for pagination'})
   @ApiParam({name: 'size', required: false, description: 'Number of items per page'})
@@ -65,7 +65,7 @@ export class PokemonController {
     return this.pokemonService.findByType(query ,page, size, order);
   }
 
-  @Patch(':id')
+  @Patch(['/:id', 'updateOnePokemon/:id'])
   @ApiBody({
     type: UpdatePokemonDto,
     examples:{
@@ -78,7 +78,7 @@ export class PokemonController {
     return this.pokemonService.update(+id, updatePokemonDto);
   }
 
-  @Delete(':id')
+  @Delete(['/:id', 'removeOnePokemon/:id'])
   @ApiOperation({ summary: 'Remove a Pokemon with set id' })
   remove(@Param('id') id: string) {
     return this.pokemonService.remove(+id);

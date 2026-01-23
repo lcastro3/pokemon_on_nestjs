@@ -7,6 +7,7 @@ The API has:
  - Unit Tests
  - Swagger Documentation
  - Pagination on filters
+ - Import from PokeAPI.co
 
 ## Swagger
 
