@@ -31,7 +31,7 @@ describe('PokemonService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(service.create).toBeDefined();
-    expect(service.findAll).toBeDefined();
+    expect(service.findManyPokemon).toBeDefined();
     expect(service.findById).toBeDefined();
     expect(service.findByName).toBeDefined();
     expect(service.findByType).toBeDefined();

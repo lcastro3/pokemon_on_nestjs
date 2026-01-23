@@ -5,6 +5,7 @@ import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { SearchParamsDto } from './dto/searchParams.dto';
 import { ApiBody, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('pokemon')
 @UseInterceptors(CacheInterceptor)
@@ -25,8 +26,13 @@ export class PokemonController {
 
   @Get()
   @ApiOperation({ summary: 'Get all Pokemons' })
-  findAll() {
-    return this.pokemonService.findAll();
+  @ApiParam({name: 'page', required: false, description: 'Page number for pagination'})
+  @ApiParam({name: 'size', required: false, description: 'Number of items per page'})
+  @ApiParam({name: 'order', required: false, description: 'Order of results, ASC or DESC'})
+  findAll(@Query() {page, size, order}: PaginationDto) {
+    page = page ?? 1;
+    size = size ?? 10;
+    return this.pokemonService.findManyPokemon(page, size, order);
   }
 
   @Get('findById/:id')

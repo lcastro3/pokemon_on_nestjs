@@ -23,7 +23,7 @@ export class PokemonService {
   }
 
 
-  async findByName(name: string, page: number, size: number, orderBy: string){
+  async findByName(name: string, page: number, size: number, orderBy: string) : Promise<{}> {
     let count = await this.pokemonRepository.count({where: {name: Like(`%${name}%`)}}) ?? 1;
     let query : FindManyOptions<Pokemon> = {
       where: {name: Like(`%${name}%`)},
@@ -41,7 +41,7 @@ export class PokemonService {
     }
   }
 
-  async findByType(type: string, page: number, size: number, orderBy: string){
+  async findByType(type: string, page: number, size: number, orderBy: string): Promise<{}> {
     let count = await this.pokemonRepository.count({where: {type: Like(`%${type}%`)}}) ?? 1;
     let query : FindManyOptions<Pokemon> = {
       where: {type: Like(`%${type}%`)},
@@ -59,8 +59,21 @@ export class PokemonService {
     }
   }
 
-  findAll() : Promise<Pokemon[]> {
-    return this.pokemonRepository.find();
+  async findManyPokemon(page: number, size: number, orderBy: string) : Promise<{}> {
+    let count = await this.pokemonRepository.count() ?? 1;
+    let query : FindManyOptions<Pokemon> = {
+      skip: (page - 1) * size,
+      take: size,
+    }
+    if(orderBy){
+      query.order = {type: orderBy == 'ASC' ? 'ASC' : 'DESC'};
+    }
+    const result = await this.pokemonRepository.find(query);
+    return {
+      pages: Math.ceil(count / size),
+      currentPage: page,
+      data: result
+    }
   }
 
   async findById(id: number): Promise<Pokemon> {
@@ -71,7 +84,7 @@ export class PokemonService {
     return pokemon
   }
   
-  async update(id: number, updatePokemonDto: UpdatePokemonDto) {
+  async update(id: number, updatePokemonDto: UpdatePokemonDto) : Promise<Pokemon> {
     let pokemon = await this.pokemonRepository.findOneBy({id});
     this.pokemonRepository.merge(pokemon, updatePokemonDto);
     return this.pokemonRepository.save(pokemon);
@@ -81,7 +94,7 @@ export class PokemonService {
     return this.pokemonRepository.delete(id);
   }
 
-  async importPokemonById(id:number){
+  async importPokemonById(id:number): Promise<Pokemon> {
 
     const pokemon = await this.pokemonRepository.findOneBy({id});
 

@@ -1,5 +1,13 @@
 # Pokemon API NestJS
 
+An Pokemon themed API build with nestjs.
+The API has:
+ - Build In cached requests
+ - Rate Limit
+ - Unit Tests
+ - Swagger Documentation
+ - Pagination on filters
+
 ## Swagger
 
 - Access: localhost:4000/docs
