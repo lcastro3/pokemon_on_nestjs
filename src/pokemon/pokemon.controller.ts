@@ -60,6 +60,13 @@ export class PokemonController {
   }
 
   @Patch(':id')
+  @ApiBody({
+    type: UpdatePokemonDto,
+    examples:{
+      Update: {value: {name: 'Pikachu', type: 'Electric'}},
+    }
+  })
+  @ApiParam({name: 'id', required: true, description: 'Id of the Pokemon to be imported from PokeAPI'})
   @ApiOperation({ summary: 'Update a Pokemon with set id' })
   update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
     return this.pokemonService.update(+id, updatePokemonDto);
@@ -72,12 +79,8 @@ export class PokemonController {
   }
 
   @Patch('importPokemonById/:id')
-  @ApiBody({
-    type: CreatePokemonDto,
-    examples:{
-      Update: {value: {id: 1, name: 'Pikachu', type: 'Electric'}},
-    }
-  })
+  @ApiParam({name: 'id', required: true, description: 'Id of the Pokemon to be imported from PokeAPI'})
+  @ApiOperation({ summary: 'Import a Pokemon from PokeAPI by ID' })
   importPokemonById(@Param('id') id: string) {
     return this.pokemonService.importPokemonById(+id);
   }
